@@ -6,6 +6,10 @@ body, html {
   background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 }
 
+.my-msg{
+  background-color: yellowgreen !important;
+}
+
 a {
   text-decoration: none;
 }
