@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Chat-Socket App</title>
-  </head>
-  <body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-      <input type="text" name="name" placeholder="Masukkan Nama Anda">
-      <button type="submit" name="button">Login</button>
-    </form>
-  </body>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <title>Chat-Socket App</title>
+  <style media="screen">
+    body {
+      background: #7F7FD5;
+      background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+      background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+      height: 100vh;
+    }
+    #login .container #login-row #login-column .login-box {
+      margin-top: 80px;
+      max-width: 600px;
+      height: 280px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    #login .container #login-row #login-column .login-box #login-form { padding: 20px; }
+    #login .container #login-row #login-column .login-box #login-form #register-link { margin-top: -85px; }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <h3 class="text-center text-white pt-5">Chat-Socket App</h3>
+    <div class="container">
+      <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-6">
+          <div class="login-box col-md-12">
+            <form id="login-form" class="form" action="/login" method="post">
+              <h3 class="text-center text-white">Login</h3>
+              <div class="form-group" style="margin-top: 50px">
+                <input placeholder="Masukan Nama anda.." type="text" name="name" id="name" class="form-control">
+              </div>
+              <div class="form-group">
+                <input type="submit" name="submit" style="background: #7F7FD5;" class="btn btn-primary btn-md form-control" value="Login">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

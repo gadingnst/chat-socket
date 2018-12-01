@@ -40,7 +40,7 @@
           <div class="card-header msg_head">
             <div class="d-flex bd-highlight">
               <div class="img_cont">
-                <img class="rounded-circle user_img">
+                <img class="rounded-circle user_img" src="http://www.clker.com/cliparts/J/V/3/T/9/S/i18n-md.png">
                 <span class="online_icon"></span>
               </div>
               <div class="user_info">
@@ -51,7 +51,8 @@
             <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
             <div class="action_menu">
               <ul>
-                <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li id="clear-chat"><span><i class="fas fa-undo-alt"></i> Clear Chat</span></li>
+                <li onclick="window.location.href = '/logout'"><span><i class="fas fa-power-off"></i> Logout</span></li>
               </ul>
             </div>
           </div>
@@ -74,13 +75,6 @@
   </div>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/js/index.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#action_menu_btn').click(function() {
-        $('.action_menu').toggle();
-      });
-    });
-  </script>
 </body>
 
 </html>

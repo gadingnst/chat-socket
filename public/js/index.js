@@ -12,6 +12,7 @@ $.ajax({
     var text = $('#msg-text');
     io.emit('messages', {
       name: res.self.name,
+      ava: res.self.ava,
       msg: text.val()
     });
     text.val('');
@@ -26,7 +27,7 @@ $.ajax({
         <li id="${name}">
           <div class="d-flex bd-highlight">
             <div class="img_cont">
-              <img class="rounded-circle user_img">
+              <img class="rounded-circle user_img" src="${res.users[index].ava}">
               <span class="online_icon"></span>
             </div>
             <div class="user_info">
@@ -44,7 +45,7 @@ $.ajax({
       $('#chat-room').append(`
         <div class="d-flex mb-4 justify-content-start">
           <div class="img_cont_msg">
-            <img class="rounded-circle user_img_msg">
+            <img class="rounded-circle user_img_msg" src="${data.ava}">
           </div>
           <div class="msg_cotainer">
             ${data.msg}
@@ -60,31 +61,31 @@ $.ajax({
             <span class="msg_name_send">${data.name}</span>
           </div>
           <div class="img_cont_msg">
-            <img class="rounded-circle user_img_msg">
+            <img class="rounded-circle user_img_msg" src="${data.ava}">
           </div>
         </div>
       `);
     }
   });
 
-  io.on('login', function(name){
+  io.on('login', function(data){
     $('#users-online-count').text((++users)+' Online');
     $('#users-online').append(`
-      <li id="${name}">
+      <li id="${data.name}">
         <div class="d-flex bd-highlight">
           <div class="img_cont">
-            <img class="rounded-circle user_img">
+            <img class="rounded-circle user_img" src="${data.ava}">
             <span class="online_icon"></span>
           </div>
           <div class="user_info">
-            <span>${name}</span>
-            <p>${name} is online</p>
+            <span>${data.name}</span>
+            <p>${data.name} is online</p>
           </div>
         </div>
       </li>
     `);
     $('#chat-room').append(`
-      <p style="font-size: 8pt; text-align: center; color: #FFF">${name} telah Login</p>
+      <p style="font-size: 8pt; text-align: center; color: #FFF">${data.name} telah Login</p>
     `);
   });
 
@@ -94,5 +95,16 @@ $.ajax({
     $('#chat-room').append(`
       <p style="font-size: 8pt; text-align: center; color: #FFF">${name} telah Logout</p>
     `);
+  });
+
+  $('#clear-chat').on('click', function(e){
+    $('#chat-room').empty();
+    $('.action_menu').hide();
+  });
+});
+
+$(document).ready(function() {
+  $('#action_menu_btn').click(function() {
+    $('.action_menu').toggle();
   });
 });
