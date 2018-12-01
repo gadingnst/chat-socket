@@ -7,6 +7,8 @@ const
   socketio = require('socket.io')(http),
   io = require('socket.io-client')('http://localhost:3300');
 
+let login = {self: {}, users: []};
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(parser.urlencoded({
@@ -16,11 +18,17 @@ app.use(parser.urlencoded({
 socketio.on('connection', (socket) => {
   socket.on('login', (name) => {
     socketio.emit('login', name);
+    login.users.push({name: name});
     console.log(name+' telah login.');
   });
 
   socket.on('logout', (name) => {
     socketio.emit('logout', name);
+    login.users.forEach((el, i) => {
+      if (login.users[i].name === name) {
+        login.users.splice(i, 1);
+      }
+    });
     console.log(name+' telah logout');
   });
 
@@ -44,9 +52,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
-  let login = {
-    'name': request.session.name
-  }
+  login.self = {name: request.session.name}
   response.json(login);
 });
 
@@ -57,8 +63,10 @@ app.get('/logout', (request, response) => {
 });
 
 app.post('/login', (request, response) => {
-  request.session.name = request.body.name;
-  io.emit('login', request.session.name);
+  if (request.body.name.trim() !== "") {
+    request.session.name = request.body.name;
+    io.emit('login', request.session.name);
+  }
   response.redirect('/');
 });
 
