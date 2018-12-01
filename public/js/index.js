@@ -7,7 +7,7 @@ $.ajax({
 }).done(function(res){
   users = res.users.length;
   $('#users-online-count').text(--users+' Online');
-  $('#msg-form').submit(function() {
+  $('#msg-form').submit(function(event) {
     event.preventDefault();
     var text = $('#msg-text');
     io.emit('messages', {
