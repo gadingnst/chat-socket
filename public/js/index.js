@@ -6,7 +6,7 @@ $.ajax({
   dataType: 'JSON'
 }).done(function(res){
   users = res.users.length;
-  $('#users-online-count').text(users+' Online');
+  $('#users-online-count').text(--users+' Online');
   $('#msg-form').submit(function() {
     event.preventDefault();
     var text = $('#msg-text');
