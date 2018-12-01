@@ -67,11 +67,15 @@ app.get('/', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
-  login.self = {
-    name: request.session.name,
-    ava: gravatar(request.session.name+'@email.example')
+  if (request.session.name) {
+    login.self = {
+      name: request.session.name,
+      ava: gravatar(request.session.name+'@email.example')
+    }
+    response.json(login);
+    return;
   }
-  response.json(login);
+  response.redirect('/');
 });
 
 app.get('/logout', (request, response) => {
