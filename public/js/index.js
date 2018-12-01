@@ -1,13 +1,16 @@
-var io = io(), users = 0;
+'use strict';
+
+var io = io(),
+    users = 0;
 
 $.ajax({
   method: 'GET',
   url: '/login',
   dataType: 'JSON'
-}).done(function(res){
+}).done(function (res) {
   users = res.users.length;
-  $('#users-online-count').text(--users+' Online');
-  $('#msg-form').submit(function(event) {
+  $('#users-online-count').text(--users + ' Online');
+  $('#msg-form').submit(function (event) {
     event.preventDefault();
     var text = $('#msg-text');
     io.emit('messages', {
@@ -20,91 +23,41 @@ $.ajax({
     return false;
   });
 
-  res.users.forEach(function(item, index){
+  res.users.forEach(function (item, index) {
     var name = res.users[index].name;
     if (name !== res.self.name) {
-      $('#users-online').append(`
-        <li id="${name}">
-          <div class="d-flex bd-highlight">
-            <div class="img_cont">
-              <img class="rounded-circle user_img" src="${res.users[index].ava}">
-              <span class="online_icon"></span>
-            </div>
-            <div class="user_info">
-              <span>${name}</span>
-              <p>${name} is online</p>
-            </div>
-          </div>
-        </li>
-      `);
+      $('#users-online').append('\n        <li id="' + name + '">\n          <div class="d-flex bd-highlight">\n            <div class="img_cont">\n              <img class="rounded-circle user_img" src="' + res.users[index].ava + '">\n              <span class="online_icon"></span>\n            </div>\n            <div class="user_info">\n              <span>' + name + '</span>\n              <p>' + name + ' is online</p>\n            </div>\n          </div>\n        </li>\n      ');
     }
-  })
+  });
 
-  io.on('messages', function(data){
+  io.on('messages', function (data) {
     if (data.name !== res.self.name) {
-      $('#chat-room').append(`
-        <div class="d-flex mb-4 justify-content-start">
-          <div class="img_cont_msg">
-            <img class="rounded-circle user_img_msg" src="${data.ava}">
-          </div>
-          <div class="msg_cotainer">
-            ${data.msg}
-            <span class="msg_name">${data.name}</span>
-          </div>
-        </div>
-      `);
-    }else{
-      $('#chat-room').append(`
-        <div class="d-flex mb-4 justify-content-end">
-          <div class="msg_cotainer_send my-msg">
-            ${data.msg}
-            <span class="msg_name_send">${data.name}</span>
-          </div>
-          <div class="img_cont_msg">
-            <img class="rounded-circle user_img_msg" src="${data.ava}">
-          </div>
-        </div>
-      `);
+      $('#chat-room').append('\n        <div class="d-flex mb-4 justify-content-start">\n          <div class="img_cont_msg">\n            <img class="rounded-circle user_img_msg" src="' + data.ava + '">\n          </div>\n          <div class="msg_cotainer">\n            ' + data.msg + '\n            <span class="msg_name">' + data.name + '</span>\n          </div>\n        </div>\n      ');
+    } else {
+      $('#chat-room').append('\n        <div class="d-flex mb-4 justify-content-end">\n          <div class="msg_cotainer_send my-msg">\n            ' + data.msg + '\n            <span class="msg_name_send">' + data.name + '</span>\n          </div>\n          <div class="img_cont_msg">\n            <img class="rounded-circle user_img_msg" src="' + data.ava + '">\n          </div>\n        </div>\n      ');
     }
   });
 
-  io.on('login', function(data){
-    $('#users-online-count').text((++users)+' Online');
-    $('#users-online').append(`
-      <li id="${data.name}">
-        <div class="d-flex bd-highlight">
-          <div class="img_cont">
-            <img class="rounded-circle user_img" src="${data.ava}">
-            <span class="online_icon"></span>
-          </div>
-          <div class="user_info">
-            <span>${data.name}</span>
-            <p>${data.name} is online</p>
-          </div>
-        </div>
-      </li>
-    `);
-    $('#chat-room').append(`
-      <p style="font-size: 8pt; text-align: center; color: #FFF">${data.name} telah Login</p>
-    `);
+  io.on('login', function (data) {
+    $('#users-online-count').text(++users + ' Online');
+    $('#users-online').append('\n      <li id="' + data.name + '">\n        <div class="d-flex bd-highlight">\n          <div class="img_cont">\n            <img class="rounded-circle user_img" src="' + data.ava + '">\n            <span class="online_icon"></span>\n          </div>\n          <div class="user_info">\n            <span>' + data.name + '</span>\n            <p>' + data.name + ' is online</p>\n          </div>\n        </div>\n      </li>\n    ');
+    $('#chat-room').append('\n      <p style="font-size: 8pt; text-align: center; color: #FFF">' + data.name + ' telah Login</p>\n    ');
   });
 
-  io.on('logout', function(name){
-    $('#users-online-count').text((--users)+' Online');
-    $('#'+name).remove();
-    $('#chat-room').append(`
-      <p style="font-size: 8pt; text-align: center; color: #FFF">${name} telah Logout</p>
-    `);
+  io.on('logout', function (name) {
+    $('#users-online-count').text(--users + ' Online');
+    $('#' + name).remove();
+    $('#chat-room').append('\n      <p style="font-size: 8pt; text-align: center; color: #FFF">' + name + ' telah Logout</p>\n    ');
   });
 
-  $('#clear-chat').on('click', function(e){
+  $('#clear-chat').on('click', function (e) {
     $('#chat-room').empty();
     $('.action_menu').hide();
   });
 });
 
-$(document).ready(function() {
-  $('#action_menu_btn').click(function() {
+$(document).ready(function () {
+  $('#action_menu_btn').click(function () {
     $('.action_menu').toggle();
   });
 });
