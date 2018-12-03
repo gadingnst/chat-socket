@@ -44,7 +44,7 @@ $.ajax({
 
   io.on('login', function (data) {
     $('#users-online-count').text(++users + ' Online');
-    $('#users-online').append('\n      <li id="' + data.id + '">\n        <div class="d-flex bd-highlight">\n          <div class="img_cont">\n            <img class="rounded-circle user_img" src="' + data.ava + '">\n            <span class="online_icon"></span>\n          </div>\n          <div class="user_info">\n            <span>' + data.name + '</span>\n            <p>' + data.name + ' is online</p>\n          </div>\n        </div>\n      </li>\n    ');
+    $('#users-online').append('\n      <li id="' + data.id + '">\n        <div class="d-flex bd-highlight">\n          <div class="img_cont">\n            <img class="rounded-circle user_img" src="' + data.ava + '">\n            <span class="online_icon"></span>\n          </div>\n          <div class="user_info">\n            <span>' + data.name + '</span>\n            <p>' + data.name + ' sedang online</p>\n          </div>\n        </div>\n      </li>\n    ');
     $('#chat-room').append('\n      <p style="font-size: 8pt; text-align: center; color: #FFF">' + data.name + ' telah Login</p>\n    ');
   });
 
