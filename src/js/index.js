@@ -34,7 +34,21 @@ $.ajax({
             </div>
             <div class="user_info">
               <span>${name}</span>
-              <p>${name} is online</p>
+              <p>${name} sedang online</p>
+            </div>
+          </div>
+        </li>
+      `);
+    }else {
+      $('#users-online').append(`
+        <li id="${name}">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img class="rounded-circle user_img" src="${res.users[index].ava}">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>${name} (Anda)</span>
             </div>
           </div>
         </li>
@@ -60,7 +74,6 @@ $.ajax({
         <div class="d-flex mb-4 justify-content-end">
           <div class="msg_cotainer_send my-msg">
             ${data.msg}
-            <span class="msg_name_send">${data.name}</span>
           </div>
           <div class="img_cont_msg">
             <img class="rounded-circle user_img_msg" src="${data.ava}">
