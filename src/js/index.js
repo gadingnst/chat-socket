@@ -6,7 +6,7 @@ $.ajax({
   dataType: 'JSON'
 }).done(function(res){
   users = res.users.length;
-  $('#users-online-count').text(--users+' Online');
+  $('#users-online-count').text((users === 0) ? 'Belum ada user lain yang online' : --users+' Online');
   $('#msg-form').submit(function(event) {
     event.preventDefault();
     var text = $('#msg-text');
@@ -105,7 +105,7 @@ $.ajax({
   });
 
   io.on('logout', function(data){
-    $('#users-online-count').text((--users)+' Online');
+    $('#users-online-count').text((users === 0) ? 'Belum ada user lain yang online' : --users+' Online');
     $('#'+data.id).remove();
     $('#chat-room').append(`
       <p style="font-size: 8pt; text-align: center; color: #FFF">${data.name} telah Logout</p>
