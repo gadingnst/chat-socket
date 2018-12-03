@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/custom-scrollbar.min.css">
   <link rel="stylesheet" type="text/css" href="/css/index.css">
-  <script type="text/javascript" src="/js/jquery.js"></script>
-  <script type="text/javascript" src="/js/custom-scrollbar.js"></script>
 </head>
 
 <body>
@@ -40,7 +38,7 @@
           <div class="card-header msg_head">
             <div class="d-flex bd-highlight">
               <div class="img_cont">
-                <img class="rounded-circle user_img" src="http://www.clker.com/cliparts/J/V/3/T/9/S/i18n-md.png">
+                <img class="rounded-circle user_img" src="https://sutanlab.js.org/assets/img/icons/logo.png">
                 <span class="online_icon"></span>
               </div>
               <div class="user_info">
@@ -52,7 +50,9 @@
             <div class="action_menu">
               <ul>
                 <li id="clear-chat"><span><i class="fas fa-undo-alt"></i> Clear Chat</span></li>
-                <li onclick="window.location.href = '/logout'"><span><i class="fas fa-power-off"></i> Logout</span></li>
+                <li id="logout"><span><i class="fas fa-power-off"></i> Logout</span></li>
+                <hr>
+                <li><a style="text-decoration: none" target="_blank" href="https://sutanlab.js.org"><i class="far fa-user-circle"></i> About Sutan</a></li>
               </ul>
             </div>
           </div>
@@ -74,6 +74,9 @@
     </div>
   </div>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/custom-scrollbar.js"></script>
+  <script type="text/javascript" src="/js/sweetalert.js"></script>
   <script type="text/javascript" src="/js/index.js"></script>
 </body>
 

@@ -118,5 +118,4 @@ app.post('/login', (request, response) => {
 
 http.listen(port, () => {
   console.log('Server run on http://localhost:'+port);
-  console.log();
 });

@@ -60,6 +60,23 @@ $.ajax({
   });
 });
 
+$('#logout').on('click', function () {
+  $('.action_menu').toggle();
+  swal({
+    title: "Anda yakin ingin logout ?",
+    text: "Anda akan meninggalkan room chat ini.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true
+  }).then(function (willLogout) {
+    if (willLogout) {
+      swal("Terima kasih sudah mencoba aplikasi simple ini, jika menemukan kesalahan/bug mohon hubungi pengembang :)").then(function () {
+        window.location.href = '/logout';
+      });
+    }
+  });
+});
+
 $(document).ready(function () {
   $('#action_menu_btn').click(function () {
     $('.action_menu').toggle();
