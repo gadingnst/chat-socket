@@ -59,11 +59,7 @@ socketio.on('connection', socket => {
 });
 
 app.get('*', (request, response) => {
-  if (!request.headers.host.includes('localhost')) {
-    response.redirect('https://'+request.headers.host+request.url);
-    return;
-  }
-  response.redirect('http://'+request.headers.host+request.url);
+  response.redirect('https://'+request.headers.host+request.url);
 });
 
 app.get('/', (request, response) => {
