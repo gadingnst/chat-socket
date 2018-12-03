@@ -11,8 +11,10 @@ $.ajax({
     event.preventDefault();
     var text = $('#msg-text');
     io.emit('messages', {
+      id: res.self.id,
       name: res.self.name,
       ava: res.self.ava,
+      bubble: res.self.bubble,
       msg: text.val()
     });
     text.val('');
@@ -22,7 +24,7 @@ $.ajax({
 
   res.users.forEach(function(item, index){
     var name = res.users[index].name;
-    if (name !== res.self.name) {
+    if (res.users[index].id !== res.self.id) {
       $('#users-online').append(`
         <li id="${name}">
           <div class="d-flex bd-highlight">
@@ -41,13 +43,13 @@ $.ajax({
   })
 
   io.on('messages', function(data){
-    if (data.name !== res.self.name) {
+    if (data.id !== res.self.id) {
       $('#chat-room').append(`
         <div class="d-flex mb-4 justify-content-start">
           <div class="img_cont_msg">
             <img class="rounded-circle user_img_msg" src="${data.ava}">
           </div>
-          <div class="msg_cotainer">
+          <div class="msg_cotainer" style="background-color: ${data.bubble}">
             ${data.msg}
             <span class="msg_name">${data.name}</span>
           </div>
@@ -71,7 +73,7 @@ $.ajax({
   io.on('login', function(data){
     $('#users-online-count').text((++users)+' Online');
     $('#users-online').append(`
-      <li id="${data.name}">
+      <li id="${data.id}">
         <div class="d-flex bd-highlight">
           <div class="img_cont">
             <img class="rounded-circle user_img" src="${data.ava}">
@@ -89,15 +91,15 @@ $.ajax({
     `);
   });
 
-  io.on('logout', function(name){
+  io.on('logout', function(data){
     $('#users-online-count').text((--users)+' Online');
-    $('#'+name).remove();
+    $('#'+data.id).remove();
     $('#chat-room').append(`
-      <p style="font-size: 8pt; text-align: center; color: #FFF">${name} telah Logout</p>
+      <p style="font-size: 8pt; text-align: center; color: #FFF">${data.name} telah Logout</p>
     `);
   });
 
-  $('#clear-chat').on('click', function(e){
+  $('#clear-chat').on('click', function(){
     $('#chat-room').empty();
     $('.action_menu').hide();
   });

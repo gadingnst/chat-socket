@@ -2,24 +2,27 @@ const
   express = require('express'),
   session = require('express-session'),
   parser = require('body-parser'),
+  hex = require('randomcolor'),
   md5 = require('md5'),
+  uuid = require('uuid/v4'),
   app = express(),
   http = require('http').Server(app),
   socketio = require('socket.io')(http),
-  io = require('socket.io-client')(`http://localhost:${process.env.PORT}`);
+  port = process.env.PORT ? process.env.PORT : 3300,
+  io = require('socket.io-client')('http://localhost:'+port);
 
-let username, login = {self: {}, users: []};
+let
+  login = {self: {}, users: []},
+  gravatar = email => `https://www.gravatar.com/avatar/${md5(email)+'?d=robohash'}`;
 
-let gravatar = email => `https://www.gravatar.com/avatar/${md5(email)+'?d=robohash'}`;
-
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname+'/public'));
 
 app.use(parser.urlencoded({
   extended: true
 }));
 
 app.use(session({
-  secret: 'login-username',
+  secret: uuid(),
   resave: true,
   saveUninitialized: false,
 }));
@@ -32,22 +35,26 @@ socketio.on('connection', socket => {
 
   socket.on('login', data => {
     socketio.emit('login', {
+      id: data.id,
       name: data.name,
-      ava: data.ava
+      ava: data.ava,
+      bubble: data.bubble
     });
     login.users.push({
+      id: data.id,
       name: data.name,
-      ava: data.ava
+      ava: data.ava,
+      bubble: data.bubble
     });
     console.log(data.name+' telah login.');
   });
 
-  socket.on('logout', name => {
-    socketio.emit('logout', name);
+  socket.on('logout', data => {
+    socketio.emit('logout', data);
     login.users.map((el, i) => {
-      if (login.users[i].name === name) {
+      if (login.users[i].id === data.id) {
         login.users.splice(i, 1);
-        console.log(name+' telah logout');
+        console.log(data.name+' telah logout');
         return;
       }
     });
@@ -63,18 +70,20 @@ socketio.on('connection', socket => {
 // });
 
 app.get('/', (request, response) => {
-  if (request.session.name) {
-    response.sendFile(__dirname + '/src/views/index.html');
+  if (request.session.userid) {
+    response.sendFile(__dirname+'/src/views/index.html');
     return;
   }
-  response.sendFile(__dirname + '/src/views/login.html');
+  response.sendFile(__dirname+'/src/views/login.html');
 });
 
 app.get('/login', (request, response) => {
-  if (request.session.name) {
+  if (request.session.userid) {
     login.self = {
+      id: request.session.userid,
       name: request.session.name,
-      ava: gravatar(request.session.name+'@email.example')
+      ava: request.session.ava,
+      bubble: request.session.bubble,
     }
     response.json(login);
     return;
@@ -83,7 +92,10 @@ app.get('/login', (request, response) => {
 });
 
 app.get('/logout', (request, response) => {
-  io.emit('logout', request.session.name);
+  io.emit('logout', {
+    id: request.session.userid,
+    name: request.session.name
+  });
   request.session.destroy();
   response.redirect('/');
 });
@@ -91,15 +103,20 @@ app.get('/logout', (request, response) => {
 app.post('/login', (request, response) => {
   if (request.body.name.trim() !== "") {
     request.session.name = request.body.name;
-    username = request.session.name;
+    request.session.userid = uuid();
+    request.session.ava = gravatar(request.session.name+hex().replace('#', '')+'@sutanlab.js.org');
+    request.session.bubble = hex({luminosity: 'light', format: 'hex'});
     io.emit('login', {
+      id: request.session.userid,
       name: request.session.name,
-      ava: gravatar(request.session.name+'@email.example')
+      ava: request.session.ava,
+      bubble: request.session.bubble,
     });
   }
   response.redirect('/');
 });
 
-http.listen(process.env.PORT || 3300, () => {
-  console.log('Server listening on port 3300');
+http.listen(port, () => {
+  console.log('Server run on http://localhost:'+port);
+  console.log();
 });
