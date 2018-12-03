@@ -6,7 +6,7 @@ const
   app = express(),
   http = require('http').Server(app),
   socketio = require('socket.io')(http),
-  io = require('socket.io-client')('http://localhost:3300');
+  io = require('socket.io-client')(`http://localhost:${process.env.PORT}`);
 
 let username, login = {self: {}, users: []};
 
@@ -96,6 +96,6 @@ app.post('/login', (request, response) => {
   response.redirect('/');
 });
 
-http.listen(3300, "0.0.0.0", () => {
+http.listen(process.env.PORT || 3300, () => {
   console.log('Server listening on port 3300');
 });
