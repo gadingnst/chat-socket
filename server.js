@@ -53,8 +53,8 @@ socketio.on('connection', socket => {
     });
 
     socket.on('disconnect', () => {
-      socketio.emit('io-disconnect', {msg: `Socket ${socket.id} disconnect`});
-    })
+      socketio.emit('io-disconnect', {msg: `Socket ${socket.id} disconne=ct`});
+    });
   });
 });
 
