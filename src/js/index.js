@@ -94,7 +94,7 @@ $.ajax({
           </div>
           <div class="user_info">
             <span>${data.name}</span>
-            <p>${data.name} is online</p>
+            <p>${data.name} sedang online</p>
           </div>
         </div>
       </li>
