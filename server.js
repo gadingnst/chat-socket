@@ -58,9 +58,9 @@ socketio.on('connection', socket => {
   });
 });
 
-app.use((request, response, next) => {
-  response.redirect('https://'+request.headers.host+request.url);
-});
+// app.use((request, response, next) => {
+//   response.redirect('https://'+request.headers.host+request.url);
+// });
 
 app.get('/', (request, response) => {
   if (request.session.name) {
