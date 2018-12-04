@@ -136,6 +136,14 @@ $('#logout').on('click', function(){
   });
 });
 
+$("#msg-text").keypress(function(key) {
+  if(key.which == 13) {
+    $('#msg-send').click();
+    $(this).val('');
+    key.preventDefault();
+  }
+});
+
 $(document).ready(function() {
   $('#action_menu_btn').click(function() {
     $('.action_menu').toggle();

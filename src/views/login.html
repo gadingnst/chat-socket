@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <title>Chat-Socket App</title>
+  <title>Login | Chat-Socket App</title>
   <style media="screen">
     body {
       background: #7F7FD5;
@@ -35,10 +35,10 @@
             <form id="login-form" class="form" action="/login" method="post">
               <h3 class="text-center text-white">Login</h3>
               <div class="form-group" style="margin-top: 50px">
-                <input placeholder="Masukan Nama anda.." type="text" name="name" id="name" class="form-control">
+                <input required placeholder="Masukan Nama anda.." maxlength="12" type="text" name="name" id="name" class="form-control">
               </div>
               <div class="form-group">
-                <input type="submit" name="submit" style="background: #7F7FD5;" class="btn btn-primary btn-md form-control" value="Login">
+                <input disabled id="btn-login" type="submit" name="submit" style="background: #7F7FD5; transition: all 250ms ease-in-out" class="btn btn-primary btn-md form-control" value="Login">
               </div>
             </form>
           </div>
@@ -46,5 +46,15 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript">
+    $('#name').on('input', function() {
+      if ($(this).val().trim() !== "") {
+        $('#btn-login').prop('disabled', false);
+      }else {
+        $('#btn-login').prop('disabled', true);
+      }
+    });
+  </script>
 </body>
 </html>
